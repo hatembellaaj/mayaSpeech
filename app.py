@@ -122,19 +122,19 @@ def process():
     with open('audio.vtt', 'r') as vtt_file:
         audio_vtt_content = vtt_file.read()
 
-    # we need this fore our HTML file (basicly just some styling)
-    preS = '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta http-equiv="X-UA-Compatible" content="ie=edge">\n    <title>Lexicap</title>\n    <style>\n        body {\n            font-family: sans-serif;\n            font-size: 18px;\n            color: #111;\n            padding: 0 0 1em 0;\n        }\n        .l {\n          color: #050;\n        }\n        .s {\n            display: inline-block;\n        }\n        .e {\n            display: inline-block;\n        }\n        .t {\n            display: inline-block;\n        }\n        #player {\n\t\tposition: sticky;\n\t\ttop: 20px;\n\t\tfloat: right;\n\t}\n    </style>\n  </head>\n  <body>\n    <h2>MAYA TEST RESULTS </h2>\n  <div  id="player"></div>\n    <br>\n         <h2>Contents of audio.txt:</h2> \n <pre>' +audio_txt_content + '</pre> \n <h2>Contents of audio.vtt:</h2> \n<pre>'+audio_vtt_content+'</pre>'
-    postS = '\t</body>\n</html>'
+    # Generate the HTML response
+    preS = '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta http-equiv="X-UA-Compatible" content="ie=edge">\n    <title>Lexicap</title>\n    <style>\n        body {\n            font-family: sans-serif;\n            font-size: 18px;\n            color: #111;\n            padding: 0 0 1em 0;\n        }\n        .l {\n          color: #050;\n        }\n        .s {\n            display: inline-block;\n        }\n        .e {\n            display: inline-block;\n        }\n        .t {\n            display: inline-block;\n        }\n        #player {\n\t\tposition: sticky;\n\t\ttop: 20px;\n\t\tfloat: right;\n\t}\n    </style>\n  </head>\n  <body>\n    <h2>MAYA TEST RESULTS </h2>\n  <div  id="player"></div>\n    <br>\n    <h2>Contents of audio.txt:</h2>\n    <pre>' + audio_txt_content + '</pre>\n    <h2>Contents of audio.vtt:</h2>\n    <pre>' + audio_vtt_content + '</pre>\n    <div class="c">\n'
 
-    from datetime import timedelta
+    postS = '\t</body>\n</html>'
 
     html = list(preS)
     spacermilli = 348
-    for i in range(len(segments)):
-        segment_start = segments[i]
-        segment_end = segments[i+1] if i+1 < len(segments) else len(sounds)  # Determine the end of the segment
+    for i in range(len(segments) - 1):  # Adjusted loop range
 
-        segment_captions = [caption for caption in captions if caption[0] >= (segment_start - spacermilli) and caption[1] <= segment_end]
+        segment_start = segments[i]
+        segment_end = segments[i + 1]
+
+        segment_captions = [caption for caption in captions if segment_start <= caption[0] < segment_end]
 
         for c in segment_captions:
             start = dzList[i][0] + (c[0] - segment_start)
