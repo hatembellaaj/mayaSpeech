@@ -129,20 +129,22 @@ def process():
 
     html = list(preS)
     spacermilli = 348
-    for i in range(len(segments) - 1):  # Adjusted loop range
-
-        segment_start = segments[i]
-        segment_end = segments[i + 1]
+    for i in range(len(dzList) - 1):  
+        segment_start = dzList[i][0]
+        segment_end = dzList[i + 1][0]
 
         segment_captions = [caption for caption in captions if segment_start <= caption[0] < segment_end]
 
         for c in segment_captions:
-            start = dzList[i][0] + (c[0] - segment_start)
+            start = c[0] - segment_start
+            end = c[1] - segment_start
 
             if start < 0:
                 start = 0
 
             start = start / 1000.0
+            end = end / 1000.0
+
             startStr = '{0:02d}:{1:02d}:{2:02.2f}'.format(int(start // 3600), int((start % 3600) // 60), start % 60)
 
             html.append('\t\t\t<div class="c">\n')
@@ -150,7 +152,6 @@ def process():
             html.append(f'\t\t\t\t<div class="s"><a href="javascript:void(0);" onclick=setCurrentTime({int(start)})>{startStr}</a></div>\n')
             html.append(f'\t\t\t\t<div class="t">{"[User]" if dzList[i][2] else "[Assistant]"} {c[2]}</div>\n')
             html.append('\t\t\t</div>\n\n')
-
     html.append(postS)
     s = "".join(html)
 
