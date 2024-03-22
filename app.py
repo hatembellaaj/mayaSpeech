@@ -17,13 +17,14 @@ def index():
 @app.route('/process', methods=['POST'])
 def process():
     files_to_remove = [file for file in os.listdir() if file.startswith("audio.") or file.endswith(".wav")]
+    print("files to remove : ", files_to_remove)
     for file in files_to_remove:
         os.remove(file)
 
 
     # Récupérer le fichier uploadé par l'utilisateur
     uploaded_file = request.files['file']
-    uploaded_file.save('download.wav')
+    uploaded_file.save('audio.wav')
 
     # Effectuer le traitement
     # Ajoutez ici le code pour le traitement audio et la génération de lexica.html
@@ -31,11 +32,11 @@ def process():
     t1 = 0 * 1000 # works in milliseconds
     t2 = 1 * 60 * 1000
 
-    newAudio = AudioSegment.from_wav("download.wav")
+    #newAudio = AudioSegment.from_wav("download.wav")
 
-    a = newAudio[t1:t2]
-    a.export("audio.wav", format="wav")
-
+    #a = newAudio[t1:t2]
+    #a.export("audio.wav", format="wav")
+    a =  AudioSegment.from_wav("audio.wav")
     # instantiate the pipeline
 
     pipeline = Pipeline.from_pretrained(
