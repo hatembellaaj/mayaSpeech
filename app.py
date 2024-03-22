@@ -6,6 +6,7 @@ import re
 import webvtt
 import subprocess
 import os
+import numpy as np
 
 app = Flask(__name__)
 
