@@ -1,0 +1,54 @@
+body {
+    background-color: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #333;
+    background-color: #222;
+    border-radius: 10px;
+}
+
+h1 {
+    color: #55acee; /* Bleu foncé */
+}
+
+input[type="file"],
+select,
+button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+}
+
+input[type="file"] {
+    cursor: pointer;
+}
+
+select {
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+    background-color: #55acee; /* Bleu foncé */
+}
+
+button:hover {
+    background-color: #007bb6; /* Bleu un peu plus clair */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}

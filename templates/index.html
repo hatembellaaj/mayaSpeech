@@ -5,22 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Upload File</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <form action="/process" method="post" enctype="multipart/form-data" id="upload-form">
-        <input type="file" name="file" accept=".wav">
-        <label for="language">Choose a language:</label>
-        <select name="language" id="language">
-            <option value="fr">French</option>
-            <option value="en">English</option>
-            <option value="ar">Arabic</option>
-        </select>
-        <label for="model">Choose a model:</label>
-        <select name="model" id="model">
-            <option value="tiny">Tiny</option>
-            <option value="base">Base</option>
-        </select>
-        <button type="submit" value="Upload">Process</button>
-    </form>
+    <div class="container">
+        <h1>Upload File</h1>
+        <form action="/process" method="post" enctype="multipart/form-data" id="upload-form">
+            <input type="file" name="file" accept=".wav">
+            <label for="language">Choose a language:</label>
+            <select name="language" id="language">
+                <option value="fr">French</option>
+                <option value="en">English</option>
+                <option value="ar">Arabic</option>
+            </select>
+            <label for="model">Choose a model:</label>
+            <select name="model" id="model">
+                <option value="tiny">Tiny</option>
+                <option value="base">Base</option>
+            </select>
+            <button type="submit" value="Upload">Process</button>
+        </form>
+    </div>
 </body>
 </html>
