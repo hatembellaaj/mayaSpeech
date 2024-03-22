@@ -109,30 +109,30 @@ def process():
     html = list(preS)
     spacermilli = 348
     for i in range(len(segments)):
-    idx = 0
-    for idx in range(len(captions)):
-        if captions[idx][0] >= (segments[i] - spacermilli):
-            break;
+        idx = 0
+        for idx in range(len(captions)):
+            if captions[idx][0] >= (segments[i] - spacermilli):
+                break;
 
-    while (idx < (len(captions))) and ((i == len(segments) - 1) or (captions[idx][1] < segments[i+1])):
-        c = captions[idx]
+        while (idx < (len(captions))) and ((i == len(segments) - 1) or (captions[idx][1] < segments[i+1])):
+            c = captions[idx]
 
-        start = dzList[i][0] + (c[0] -segments[i])
+            start = dzList[i][0] + (c[0] -segments[i])
 
-        if start < 0:
-            start = 0
-        idx += 1
+            if start < 0:
+                start = 0
+            idx += 1
 
-        start = start / 1000.0
-        startStr = '{0:02d}:{1:02d}:{2:02.2f}'.format((int)(start // 3600),
-                                                (int)(start % 3600 // 60),
-                                                start % 60)
+            start = start / 1000.0
+            startStr = '{0:02d}:{1:02d}:{2:02.2f}'.format((int)(start // 3600),
+                                                    (int)(start % 3600 // 60),
+                                                    start % 60)
 
-        html.append('\t\t\t<div class="c">\n')
-        html.append(f'\t\t\t\t<a class="l" href="#{startStr}" id="{startStr}">link</a> |\n')
-        html.append(f'\t\t\t\t<div class="s"><a href="javascript:void(0);" onclick=setCurrentTime({int(start)})>{startStr}</a></div>\n')
-        html.append(f'\t\t\t\t<div class="t">{"[User]" if dzList[i][2] else "[Assistant]"} {c[2]}</div>\n')
-        html.append('\t\t\t</div>\n\n')
+            html.append('\t\t\t<div class="c">\n')
+            html.append(f'\t\t\t\t<a class="l" href="#{startStr}" id="{startStr}">link</a> |\n')
+            html.append(f'\t\t\t\t<div class="s"><a href="javascript:void(0);" onclick=setCurrentTime({int(start)})>{startStr}</a></div>\n')
+            html.append(f'\t\t\t\t<div class="t">{"[User]" if dzList[i][2] else "[Assistant]"} {c[2]}</div>\n')
+            html.append('\t\t\t</div>\n\n')
 
     html.append(postS)
     s = "".join(html)
