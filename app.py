@@ -90,7 +90,7 @@ def process():
     #################################################
     ###### Execute whisper command !
 
-    strWhisper = 'whisper audio.wav  --language fr --model base' 
+    strWhisper = 'whisper audio.wav  --language fr --model tiny' 
     now = datetime.now()
     print("Current time:", now)
     print("strWhisper : ",strWhisper)
