@@ -122,24 +122,19 @@ def process():
     html = list(preS)
     spacermilli = 348
     for i in range(len(segments)):
-        idx = 0
-        for idx in range(len(captions)):
-            if captions[idx][0] >= (segments[i] - spacermilli):
-                break;
+        segment_start = segments[i]
+        segment_end = segments[i+1] if i+1 < len(segments) else len(sounds)  # Determine the end of the segment
 
-        while (idx < (len(captions))) and ((i == len(segments) - 1) or (captions[idx][1] < segments[i+1])):
-            c = captions[idx]
+        segment_captions = [caption for caption in captions if caption[0] >= (segment_start - spacermilli) and caption[1] <= segment_end]
 
-            start = dzList[i][0] + (c[0] -segments[i])
+        for c in segment_captions:
+            start = dzList[i][0] + (c[0] - segment_start)
 
             if start < 0:
                 start = 0
-            idx += 1
 
             start = start / 1000.0
-            startStr = '{0:02d}:{1:02d}:{2:02.2f}'.format((int)(start // 3600),
-                                                    (int)(start % 3600 // 60),
-                                                    start % 60)
+            startStr = '{0:02d}:{1:02d}:{2:02.2f}'.format(int(start // 3600), int((start % 3600) // 60), start % 60)
 
             html.append('\t\t\t<div class="c">\n')
             html.append(f'\t\t\t\t<a class="l" href="#{startStr}" id="{startStr}">link</a> |\n')
