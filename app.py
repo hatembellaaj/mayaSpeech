@@ -90,7 +90,13 @@ def process():
     #################################################
     ###### Execute whisper command !
 
-    strWhisper = 'whisper audio.wav  --language fr --model tiny' 
+
+    # Récupérer les valeurs des champs language et model
+    language = request.form['language']
+    model = request.form['model']
+
+
+    strWhisper = f'whisper audio.wav --language {language} --model {model}'  
     now = datetime.now()
     print("Current time:", now)
     print("strWhisper : ",strWhisper)
