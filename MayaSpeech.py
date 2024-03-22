@@ -1,16 +1,21 @@
 from pydub import AudioSegment
+from pyannote.audio import Pipeline
+from datetime import datetime
+import re
+import webvtt
+import subprocess
+
 
 t1 = 0 * 1000 # works in milliseconds
 t2 = 1 * 60 * 1000
 
-#newAudio = AudioSegment.from_wav("download.wav")
 newAudio = AudioSegment.from_wav("download.wav")
 
 a = newAudio[t1:t2]
 a.export("audio.wav", format="wav")
 
 # instantiate the pipeline
-from pyannote.audio import Pipeline
+
 pipeline = Pipeline.from_pretrained(
   "pyannote/speaker-diarization-3.0",
   use_auth_token="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")
@@ -29,19 +34,7 @@ def millisec(timeStr):
   s = (int)((int(spl[0]) * 60 * 60 + int(spl[1]) * 60 + float(spl[2]) )* 1000)
   return s
 
-import re
-dz = open('diarization.txt').read().splitlines()
-dzList = []
-for l in dz:
-  start, end =  tuple(re.findall('[0-9]+:[0-9]+:[0-9]+\.[0-9]+', string=l))
-  start = millisec(start) #- spacermilli
-  end = millisec(end)  #- spacermilli
-  lex = not re.findall('SPEAKER_01', string=l)
-  dzList.append([start, end, lex])
 
-print(*dzList[:10], sep='\n')
-
-import re
 dz = open('diarization.txt').read().splitlines()
 dzList = []
 for l in dz:
@@ -60,8 +53,7 @@ audio = spacer.append(audio, crossfade=0)
 
 audio.export('audio.wav', format='wav')
 
-from pydub import AudioSegment
-import re
+
 
 sounds = spacer
 segments = []
@@ -78,8 +70,17 @@ for l in dz:
 
 sounds.export("dz.wav", format="wav") #Exports to a wav file in the current path.
 
-import webvtt
+#################################################
+###### Execute whisper command !
 
+strWhisper = 'whisper audio.wav  --language fr --model base' 
+now = datetime.now()
+print("Current time:", now)
+print("strWhisper : ",strWhisper)
+subprocess.Popen(strWhisper, shell=True, stdout=subprocess.PIPE).stdout.read()
+
+
+######
 captions = [[(int)(millisec(caption.start)), (int)(millisec(caption.end)),  caption.text] for caption in webvtt.read('dz.vtt')]
 print(*captions[:8], sep='\n')
 
