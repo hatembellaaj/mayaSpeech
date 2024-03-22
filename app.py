@@ -16,6 +16,11 @@ def index():
 
 @app.route('/process', methods=['POST'])
 def process():
+    files_to_remove = [file for file in os.listdir() if file.startswith("audio.") or file.endswith(".wav")]
+    for file in files_to_remove:
+        os.remove(file)
+
+
     # Récupérer le fichier uploadé par l'utilisateur
     uploaded_file = request.files['file']
     uploaded_file.save('download.wav')
