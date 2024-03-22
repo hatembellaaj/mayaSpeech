@@ -98,7 +98,7 @@ def process():
 
 
     ######
-    captions = [[(int)(millisec(caption.start)), (int)(millisec(caption.end)),  caption.text] for caption in webvtt.read('dz.vtt')]
+    captions = [[(int)(millisec(caption.start)), (int)(millisec(caption.end)),  caption.text] for caption in webvtt.read('audio.vtt')]
     print(*captions[:8], sep='\n')
 
     # we need this fore our HTML file (basicly just some styling)
