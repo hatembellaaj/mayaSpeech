@@ -24,7 +24,7 @@ def process():
 
     # Récupérer le fichier uploadé par l'utilisateur
     uploaded_file = request.files['file']
-    uploaded_file.save('audio.wav')
+    uploaded_file.save('download.wav')
 
     # Effectuer le traitement
     # Ajoutez ici le code pour le traitement audio et la génération de lexica.html
@@ -36,7 +36,7 @@ def process():
 
     #a = newAudio[t1:t2]
     #a.export("audio.wav", format="wav")
-    a =  AudioSegment.from_wav("audio.wav")
+    a =  AudioSegment.from_wav("download.wav")
     # instantiate the pipeline
 
     pipeline = Pipeline.from_pretrained(
@@ -44,7 +44,7 @@ def process():
         use_auth_token="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")
 
     # run the pipeline on an audio file
-    dz = pipeline("audio.wav")
+    dz = pipeline("download.wav")
 
     # dump the diarization output to disk using RTTM format
     with open("diarization.txt", "w") as text_file:
