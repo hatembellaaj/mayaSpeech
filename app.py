@@ -7,7 +7,6 @@ import webvtt
 import subprocess
 import os
 
-
 app = Flask(__name__)
 
 @app.route('/')
@@ -34,8 +33,8 @@ def process():
     # instantiate the pipeline
 
     pipeline = Pipeline.from_pretrained(
-    "pyannote/speaker-diarization-3.0",
-    use_auth_token="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")
+        "pyannote/speaker-diarization-3.0",
+        use_auth_token="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")
 
     # run the pipeline on an audio file
     dz = pipeline("audio.wav")
@@ -47,19 +46,19 @@ def process():
     print(*list(dz.itertracks(yield_label = True))[:10], sep="\n")
 
     def millisec(timeStr):
-    spl = timeStr.split(":")
-    s = (int)((int(spl[0]) * 60 * 60 + int(spl[1]) * 60 + float(spl[2]) )* 1000)
-    return s
+        spl = timeStr.split(":")
+        s = (int)((int(spl[0]) * 60 * 60 + int(spl[1]) * 60 + float(spl[2]) )* 1000)
+        return s
 
 
     dz = open('diarization.txt').read().splitlines()
     dzList = []
     for l in dz:
-    start, end =  tuple(re.findall('[0-9]+:[0-9]+:[0-9]+\.[0-9]+', string=l))
-    start = millisec(start) #- spacermilli
-    end = millisec(end)  #- spacermilli
-    lex = not re.findall('SPEAKER_01', string=l)
-    dzList.append([start, end, lex])
+        start, end =  tuple(re.findall('[0-9]+:[0-9]+:[0-9]+\.[0-9]+', string=l))
+        start = millisec(start) #- spacermilli
+        end = millisec(end)  #- spacermilli
+        lex = not re.findall('SPEAKER_01', string=l)
+        dzList.append([start, end, lex])
 
     print(*dzList[:10], sep='\n')
 
@@ -77,13 +76,13 @@ def process():
 
     dz = open('diarization.txt').read().splitlines()
     for l in dz:
-    start, end =  tuple(re.findall('[0-9]+:[0-9]+:[0-9]+\.[0-9]+', string=l))
-    start = int(millisec(start)) #milliseconds
-    end = int(millisec(end))  #milliseconds
+        start, end =  tuple(re.findall('[0-9]+:[0-9]+:[0-9]+\.[0-9]+', string=l))
+        start = int(millisec(start)) #milliseconds
+        end = int(millisec(end))  #milliseconds
 
-    segments.append(len(sounds))
-    sounds = sounds.append(audio[start:end], crossfade=0)
-    sounds = sounds.append(spacer, crossfade=0)
+        segments.append(len(sounds))
+        sounds = sounds.append(audio[start:end], crossfade=0)
+        sounds = sounds.append(spacer, crossfade=0)
 
     sounds.export("dz.wav", format="wav") #Exports to a wav file in the current path.
 
@@ -113,7 +112,7 @@ def process():
     idx = 0
     for idx in range(len(captions)):
         if captions[idx][0] >= (segments[i] - spacermilli):
-        break;
+            break;
 
     while (idx < (len(captions))) and ((i == len(segments) - 1) or (captions[idx][1] < segments[i+1])):
         c = captions[idx]
@@ -121,7 +120,7 @@ def process():
         start = dzList[i][0] + (c[0] -segments[i])
 
         if start < 0:
-        start = 0
+            start = 0
         idx += 1
 
         start = start / 1000.0
